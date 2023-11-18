@@ -1,5 +1,11 @@
+import UserForm from "./Form";
+
 const Users = () => {
-  return <section></section>;
+  return (
+    <section>
+      <UserForm />
+    </section>
+  );
 };
 
 export default Users;
