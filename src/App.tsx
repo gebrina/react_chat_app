@@ -1,11 +1,17 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Login from "./pages/Login";
+import User from "./pages/User";
+import Chat from "./pages/Chat";
 
 export default function App() {
   return (
-    <main className="main-container">
-      <section className="container py-5 mx-auto">
-        <Login />
-      </section>
-    </main>
+    <BrowserRouter>
+      <Routes>
+        <Route path="" element={<User />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/:username/chats" element={<Chat />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
