@@ -8,15 +8,16 @@ const UserForm = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    if (!username) {
+      setError("Username is required.");
+    }
     !error && axiosInstance.post("/users", { username });
   };
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
-    if (!username) {
-      setError("Username is required.");
-    } else if (username.length < 3) {
+
+    if (e.target.value.length < 3) {
       setError("Username should have >3 charactes.");
     } else {
       setError(null);
@@ -44,6 +45,7 @@ const UserForm = () => {
           value={username}
           onChange={handleUsernameChange}
         />
+        {error && <small className="text-red-700">{error}</small>}
       </div>
       <button
         className="cursor-pointer
@@ -52,7 +54,8 @@ const UserForm = () => {
        gap-2
        rounded-md
        hover:border-green-950
-      flex items-center text-xl text-green-950"
+       flex items-center text-xl
+        text-green-950"
       >
         <FaSave /> Save
       </button>
