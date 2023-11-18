@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.main-container {
+  @apply w-screen h-screen;
+  background: linear-gradient(
+    to bottom left,
+    rgb(248, 242, 242),
+    rgb(248, 242, 242),
+    rgb(248, 242, 242),
+    rgb(248, 242, 242),
+    rgb(248, 242, 242),
+    rgb(248, 242, 242),
+    rgb(248, 242, 242),
+    rgb(248, 242, 242),
+    rgb(178, 178, 192)
+  );
+  background-size: 15px 15px;
+}
