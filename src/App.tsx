@@ -6,12 +6,16 @@ import Chat from "./pages/Chat";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="" element={<User />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/:username/chats" element={<Chat />} />
-      </Routes>
-    </BrowserRouter>
+    <main className="main-container h-screen w-screen">
+      <section className="container mx-auto py-10">
+        <BrowserRouter>
+          <Routes>
+            <Route path="" element={<User />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/:username/chats" element={<Chat />} />
+          </Routes>
+        </BrowserRouter>
+      </section>
+    </main>
   );
 }

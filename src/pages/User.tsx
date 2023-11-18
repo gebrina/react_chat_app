@@ -1,5 +1,11 @@
+import Users from "../components/users";
+
 const User = () => {
-  return <div>User</div>;
+  return (
+    <section>
+      <Users />
+    </section>
+  );
 };
 
 export default User;
