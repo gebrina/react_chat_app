@@ -6,18 +6,24 @@ const UserForm = () => {
   const [username, setUsername] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
+  const errorMessage = "Username is rquired.";
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!username) {
-      setError("Username is required.");
+      setError(errorMessage);
     }
     !error && axiosInstance.post("/users", { username });
   };
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-
-    if (e.target.value.length < 3) {
+    const {
+      target: { value },
+    } = e;
+    setUsername(value);
+    if (!value) {
+      setError(errorMessage);
+    } else if (value.length < 3) {
       setError("Username should have >3 charactes.");
     } else {
       setError(null);
@@ -32,15 +38,16 @@ const UserForm = () => {
       <div className="flex flex-col">
         <label htmlFor="username">User Name</label>
         <input
-          className="bg-transparent 
+          className={`
+          bg-transparent 
          shadow-lg
          px-3 py-1
          rounded
          border-[1px]
          shadow-green-50
-         border-green-950
+        ${!error ? "border-green-950" : "border-red-800"}
          outline-none
-        "
+          `}
           type="text"
           value={username}
           onChange={handleUsernameChange}
