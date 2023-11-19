@@ -13,11 +13,11 @@ const Users = () => {
       setUsers(usersData);
     };
     fetchUsers();
-  }, [users]);
+  }, []);
 
   return (
     <section>
-      <UserForm />
+      <UserForm setUsers={setUsers} />
       {users.map((user) => (
         <User user={user} key={user.id} />
       ))}

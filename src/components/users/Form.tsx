@@ -1,26 +1,36 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { FaSave } from "react-icons/fa";
-import axiosInstance from "../../axios";
+import { TUser } from "../../types/User";
+import { postUser } from "../../api";
 
-const UserForm = () => {
-  const [username, setUsername] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
+type UserFormProps = {
+  setUsers: (users: TUser[]) => void;
+};
+const UserForm: FC<UserFormProps> = ({ setUsers }) => {
+  const [user, setUser] = useState({ username: "", password: "" });
 
-  const errorMessage = "Username is rquired.";
+  const [error, setError] = useState({ username: "", password: "" });
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const errorMessage = "is required.";
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!username) {
+    const { username, password } = user;
+    if (!username || !password) {
       setError(errorMessage);
     }
-    !error && axiosInstance.post("/users", { username });
+    if (!error) {
+      const users = await postUser({ username } as TUser);
+      setUsers(users);
+    }
   };
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value },
     } = e;
-    setUsername(value);
+    setUser(({ password }) => ({ username: value, password }));
+
     if (!value) {
       setError(errorMessage);
     } else if (value.length < 3) {
@@ -30,6 +40,11 @@ const UserForm = () => {
     }
   };
 
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = e;
+  };
   return (
     <form
       onSubmit={handleSubmit}
@@ -54,6 +69,27 @@ const UserForm = () => {
         />
         {error && <small className="text-red-700">{error}</small>}
       </div>
+
+      <div className="flex flex-col">
+        <label htmlFor="username">User Name</label>
+        <input
+          className={`
+          bg-transparent 
+         shadow-lg
+         px-3 py-1
+         rounded
+         border-[1px]
+         shadow-green-50
+        ${!error ? "border-green-950" : "border-red-800"}
+         outline-none
+          `}
+          type="password"
+          value={username}
+          onChange={handleUsernameChange}
+        />
+        {error && <small className="text-red-700">{error}</small>}
+      </div>
+
       <button
         className="cursor-pointer
        border-[1px]

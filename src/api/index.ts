@@ -5,7 +5,7 @@ import { AxiosError } from "axios";
 
 const errorMsg = "Something went wrong.";
 
-export const postUser = async (user: TUser) => {
+export const postUser = async (user: TUser): Promise<TUser[]> => {
   try {
     await axiosInstance.post("/users", user);
     toast.success("User saved successfully.");
@@ -16,6 +16,7 @@ export const postUser = async (user: TUser) => {
     } else {
       toast.error(errorMsg);
     }
+    return [];
   }
 };
 
