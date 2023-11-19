@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, FormEvent, useState } from "react";
-import { FaSave } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaSave } from "react-icons/fa";
 import { TUser } from "../../types/User";
 import { postUser } from "../../api";
 
@@ -10,6 +10,7 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
   const [user, setUser] = useState({ username: "", password: "" });
 
   const [error, setError] = useState({ username: "", password: "" });
+  const [inputType, setInpuType] = useState("password");
 
   const errorMsgs = {
     length: "should have >3 charactes.",
@@ -46,6 +47,14 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
     if (username && password) {
       const users = await postUser({ username, password } as TUser);
       setUsers(users);
+    }
+  };
+
+  const handleToggleInputType = () => {
+    if (inputType === "password") {
+      setInpuType("text");
+    } else {
+      setInpuType("password");
     }
   };
 
@@ -116,8 +125,9 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
 
       <div className="flex flex-col">
         <label htmlFor="password">Password</label>
-        <input
-          className={`
+        <div className="relative">
+          <input
+            className={`
           bg-transparent 
          shadow-lg
          px-3 py-1
@@ -127,11 +137,25 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
         ${!error.password ? "border-green-950" : "border-red-800"}
          outline-none
           `}
-          id="password"
-          type="password"
-          value={user.password}
-          onChange={handlePasswordChange}
-        />
+            id="password"
+            type={inputType}
+            value={user.password}
+            onChange={handlePasswordChange}
+          />
+          <span className="absolute cursor-pointer right-1 top-[9px]">
+            {inputType === "password" ? (
+              <FaEye
+                className="text-green-500"
+                onClick={handleToggleInputType}
+              />
+            ) : (
+              <FaEyeSlash
+                className="text-red-500"
+                onClick={handleToggleInputType}
+              />
+            )}
+          </span>
+        </div>
         {error.password && (
           <small className="text-red-700">{error.password}</small>
         )}
