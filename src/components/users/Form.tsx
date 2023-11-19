@@ -15,19 +15,35 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
     length: "should have >3 charactes.",
     required: "is required.",
   };
+  const password = "Password ",
+    username = "Username ";
+  const passworRequired = password + errorMsgs.required;
+  const usernameRequired = username + errorMsgs.required;
+  const passwordLengthError = password + errorMsgs.length;
+  const usernameLengthError = username + errorMsgs.length;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { required } = errorMsgs;
     const { username, password } = user;
+
     if (!username && !password) {
       setError({
-        username: "Username" + required,
-        password: "Password" + required,
+        username: usernameRequired,
+        password: passworRequired,
       });
+    } else if (!username) {
+      setError(({ password }) => ({
+        password,
+        username: usernameRequired,
+      }));
+    } else if (!password) {
+      setError(({ username }) => ({
+        username,
+        password: passworRequired,
+      }));
     }
 
-    if (!error) {
+    if (username && password) {
       const users = await postUser({ username } as TUser);
       setUsers(users);
     }
@@ -37,18 +53,21 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
     const {
       target: { value },
     } = e;
-    const { length, required } = errorMsgs;
+
+    setUser(({ password }) => ({ username: value, password }));
 
     if (!value) {
       setError(({ password }) => ({
         password,
-        username: "Username" + required,
+        username: usernameRequired,
       }));
     } else if (value.length < 3) {
-      setError(({ password }) => ({ password, username: "Username" + length }));
+      setError(({ password }) => ({
+        password,
+        username: usernameLengthError,
+      }));
     } else {
       setError({ username: "", password: "" });
-      setUser(({ password }) => ({ username: value, password }));
     }
   };
 
@@ -56,17 +75,16 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
     const {
       target: { value },
     } = e;
-    const { required, length } = errorMsgs;
+    setUser(({ username }) => ({ username, password: value }));
     if (value.length === 0) {
       setError(({ username }) => ({
         username,
-        password: "Password" + required,
+        password: passworRequired,
       }));
     } else if (value.length < 3) {
-      setError(({ username }) => ({ username, password: "Password" + length }));
+      setError(({ username }) => ({ username, password: passwordLengthError }));
     } else {
       setError({ username: "", password: "" });
-      setUser(({ username }) => ({ username, password: value }));
     }
   };
 
@@ -106,7 +124,7 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
          rounded
          border-[1px]
          shadow-green-50
-        ${!error ? "border-green-950" : "border-red-800"}
+        ${!error.password ? "border-green-950" : "border-red-800"}
          outline-none
           `}
           id="password"
@@ -114,7 +132,9 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
           value={user.password}
           onChange={handlePasswordChange}
         />
-        {error && <small className="text-red-700">{user.password}</small>}
+        {error.password && (
+          <small className="text-red-700">{error.password}</small>
+        )}
       </div>
 
       <button
