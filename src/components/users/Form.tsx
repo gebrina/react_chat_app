@@ -120,7 +120,7 @@ const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex text-xl gap-3 flex-col text-green-950 items-center justify-center"
+      className="flex text-lg gap-3 flex-col text-green-950 items-center justify-center"
     >
       <div className="flex flex-col">
         <label htmlFor="username">User Name</label>
