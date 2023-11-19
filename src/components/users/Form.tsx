@@ -11,14 +11,22 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
 
   const [error, setError] = useState({ username: "", password: "" });
 
-  const errorMessage = "is required.";
+  const errorMsgs = {
+    length: "should have >3 charactes.",
+    required: "is required.",
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const { required } = errorMsgs;
     const { username, password } = user;
-    if (!username || !password) {
-      setError(errorMessage);
+    if (!username && !password) {
+      setError({
+        username: "Username" + required,
+        password: "Password" + required,
+      });
     }
+
     if (!error) {
       const users = await postUser({ username } as TUser);
       setUsers(users);
@@ -29,14 +37,18 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
     const {
       target: { value },
     } = e;
-    setUser(({ password }) => ({ username: value, password }));
+    const { length, required } = errorMsgs;
 
     if (!value) {
-      setError(errorMessage);
+      setError(({ password }) => ({
+        password,
+        username: "Username" + required,
+      }));
     } else if (value.length < 3) {
-      setError("Username should have >3 charactes.");
+      setError(({ password }) => ({ password, username: "Username" + length }));
     } else {
-      setError(null);
+      setError({ username: "", password: "" });
+      setUser(({ password }) => ({ username: value, password }));
     }
   };
 
@@ -44,7 +56,20 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
     const {
       target: { value },
     } = e;
+    const { required, length } = errorMsgs;
+    if (value.length === 0) {
+      setError(({ username }) => ({
+        username,
+        password: "Password" + required,
+      }));
+    } else if (value.length < 3) {
+      setError(({ username }) => ({ username, password: "Password" + length }));
+    } else {
+      setError({ username: "", password: "" });
+      setUser(({ username }) => ({ username, password: value }));
+    }
   };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -63,15 +88,16 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
         ${!error ? "border-green-950" : "border-red-800"}
          outline-none
           `}
+          id="username"
           type="text"
-          value={username}
+          value={user.username}
           onChange={handleUsernameChange}
         />
-        {error && <small className="text-red-700">{error}</small>}
+        {error && <small className="text-red-700">{error.username}</small>}
       </div>
 
       <div className="flex flex-col">
-        <label htmlFor="username">User Name</label>
+        <label htmlFor="password">Password</label>
         <input
           className={`
           bg-transparent 
@@ -83,11 +109,12 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
         ${!error ? "border-green-950" : "border-red-800"}
          outline-none
           `}
+          id="password"
           type="password"
-          value={username}
-          onChange={handleUsernameChange}
+          value={user.password}
+          onChange={handlePasswordChange}
         />
-        {error && <small className="text-red-700">{error}</small>}
+        {error && <small className="text-red-700">{user.password}</small>}
       </div>
 
       <button
