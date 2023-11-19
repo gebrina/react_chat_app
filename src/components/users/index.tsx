@@ -17,7 +17,7 @@ const Users = () => {
 
   return (
     <section>
-      <UserForm setUsers={setUsers} />
+      <UserForm users={users} setUsers={setUsers} />
       {users.map((user) => (
         <User user={user} key={user.id} />
       ))}

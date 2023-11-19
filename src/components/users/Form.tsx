@@ -5,8 +5,9 @@ import { postUser } from "../../api";
 
 type UserFormProps = {
   setUsers: (users: TUser[]) => void;
+  users: TUser[];
 };
-const UserForm: FC<UserFormProps> = ({ setUsers }) => {
+const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
   const [user, setUser] = useState({ username: "", password: "" });
 
   const [error, setError] = useState({ username: "", password: "" });
@@ -16,8 +17,10 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
     length: "should have >3 charactes.",
     required: "is required.",
   };
+
   const password = "Password ",
     username = "Username ";
+
   const passworRequired = password + errorMsgs.required;
   const usernameRequired = username + errorMsgs.required;
   const passwordLengthError = password + errorMsgs.length;
@@ -76,7 +79,12 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
         username: usernameLengthError,
       }));
     } else {
-      setError({ username: "", password: "" });
+      const isTakenUsername = users.some(({ username }) => username === value);
+      if (isTakenUsername) {
+        setError({ username: "Username is already taken.", password: "" });
+      } else {
+        setError({ username: "", password: "" });
+      }
     }
   };
 
