@@ -20,11 +20,15 @@ const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
 
   const password = "Password ",
     username = "Username ";
+  const usernamTakenMsg = username + "is already taken.";
 
   const passworRequired = password + errorMsgs.required;
   const usernameRequired = username + errorMsgs.required;
   const passwordLengthError = password + errorMsgs.length;
   const usernameLengthError = username + errorMsgs.length;
+
+  const isTakenUsername = (value: string) =>
+    users.some(({ username }) => username === value);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,9 +49,16 @@ const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
         username,
         password: passworRequired,
       }));
+    } else if (isTakenUsername(username)) {
+      setError(({ password }) => ({
+        username: usernamTakenMsg,
+        password,
+      }));
+    } else {
+      setError({ username: "", password: "" });
     }
 
-    if (username && password) {
+    if (username && password && !isTakenUsername(username)) {
       const users = await postUser({ username, password } as TUser);
       setUsers(users);
     }
@@ -79,9 +90,8 @@ const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
         username: usernameLengthError,
       }));
     } else {
-      const isTakenUsername = users.some(({ username }) => username === value);
-      if (isTakenUsername) {
-        setError({ username: "Username is already taken.", password: "" });
+      if (isTakenUsername(value)) {
+        setError({ username: usernamTakenMsg, password: "" });
       } else {
         setError({ username: "", password: "" });
       }
@@ -101,7 +111,7 @@ const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
     } else if (value.length < 3) {
       setError(({ username }) => ({ username, password: passwordLengthError }));
     } else {
-      setError({ username: "", password: "" });
+      setError(({ username }) => ({ username, password: "" }));
     }
   };
 
