@@ -8,9 +8,10 @@ type UserFormProps = {
   users: TUser[];
 };
 const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
-  const [user, setUser] = useState({ username: "", password: "" });
+  const defaultUser = { username: "", password: "" };
+  const [user, setUser] = useState(defaultUser);
 
-  const [error, setError] = useState({ username: "", password: "" });
+  const [error, setError] = useState(defaultUser);
   const [inputType, setInpuType] = useState("password");
 
   const errorMsgs = {
@@ -55,12 +56,13 @@ const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
         password,
       }));
     } else {
-      setError({ username: "", password: "" });
+      setError(defaultUser);
     }
 
     if (username && password && !isTakenUsername(username)) {
       const users = await postUser({ username, password } as TUser);
       setUsers(users);
+      setUser(defaultUser);
     }
   };
 
@@ -93,7 +95,7 @@ const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
       if (isTakenUsername(value)) {
         setError({ username: usernamTakenMsg, password: "" });
       } else {
-        setError({ username: "", password: "" });
+        setError(defaultUser);
       }
     }
   };
