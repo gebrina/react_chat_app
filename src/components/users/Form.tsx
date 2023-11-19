@@ -44,7 +44,7 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
     }
 
     if (username && password) {
-      const users = await postUser({ username } as TUser);
+      const users = await postUser({ username, password } as TUser);
       setUsers(users);
     }
   };
@@ -103,7 +103,7 @@ const UserForm: FC<UserFormProps> = ({ setUsers }) => {
          rounded
          border-[1px]
          shadow-green-50
-        ${!error ? "border-green-950" : "border-red-800"}
+        ${!error.username ? "border-green-950" : "border-red-800"}
          outline-none
           `}
           id="username"
