@@ -2,9 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Login from "./pages/Login";
-import User from "./pages/User";
 import Chat from "./pages/Chat";
-import Users from "./components/users";
+import Home from "./pages/Home";
+import User from "./pages/User";
+import { ProtectedRoute } from "./components/protected-route";
 
 export default function App() {
   return (
@@ -13,10 +14,24 @@ export default function App() {
         <ToastContainer />
         <BrowserRouter>
           <Routes>
-            <Route path="" element={<User />} />
+            <Route path="" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/:username/chats" element={<Chat />} />
-            <Route path="/users" element={<Users />} />
+            <Route
+              path="/:username/chats"
+              element={
+                <ProtectedRoute>
+                  <Chat />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <ProtectedRoute>
+                  <User />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </BrowserRouter>
       </section>
