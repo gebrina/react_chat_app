@@ -9,3 +9,8 @@ export type TUser = {
   chats: TChat[];
   room: TRoom;
 };
+
+export type AuthUser = {
+  username: string;
+  password: string;
+};

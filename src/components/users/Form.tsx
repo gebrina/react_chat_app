@@ -61,7 +61,7 @@ const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
 
     if (username && password && !isTakenUsername(username)) {
       const users = await postUser({ username, password } as TUser);
-      setUsers(users);
+      users && setUsers(users);
       setUser(defaultUser);
     }
   };
