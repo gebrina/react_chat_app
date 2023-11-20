@@ -7,7 +7,9 @@ const errorMsg = "Something went wrong.";
 
 const handleAxiosError = (error: unknown) => {
   if (error instanceof AxiosError) {
-    toast.error(error.message);
+    const { response } = error;
+
+    toast.error((response as any).data.reason);
   } else {
     toast.error(errorMsg);
   }

@@ -5,6 +5,8 @@ import {
   FaFacebookMessenger,
   FaSignInAlt,
 } from "react-icons/fa";
+import { AuthUser } from "../types/User";
+import { loginUser } from "../api";
 
 type UserInputError = {
   touched: boolean;
@@ -18,9 +20,9 @@ type Error = {
 
 const Login = () => {
   const defaultUser = { username: "", password: "" };
-  const [user, setUser] = useState(defaultUser);
+  const [user, setUser] = useState<AuthUser>(defaultUser);
   const [inputType, setInpuType] = useState("password");
-  const [error, setError] = useState(defaultUser);
+  const [error, setError] = useState<AuthUser>(defaultUser);
 
   const passwordIsRequiredErrMsg = "Password is required.";
   const usernameIsRequiredErrMsg = "Username is required.";
@@ -63,8 +65,8 @@ const Login = () => {
       password: { value: password, touched: true },
     });
 
-    if (!error.username && error.password) {
-      console.log("submit");
+    if (username && password) {
+      loginUser(user);
     }
   };
 
