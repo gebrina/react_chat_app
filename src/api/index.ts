@@ -64,11 +64,17 @@ export const storeToken = (access_token: string) => {
 };
 
 export const getToken = () => {
-  const token = JSON.parse(sessionStorage.getItem("token") || "");
-  if (typeof token === "string") {
+  let token = sessionStorage.getItem("token");
+
+  if (token === null) {
     return null;
   }
+  token = JSON.parse(token);
   return token;
 };
 
-export const getPlainUserInfo = () => jwtDecode(getToken());
+export const getPlainUserInfo = () => {
+  const token = getToken();
+  if (token) return jwtDecode(token);
+  return null;
+};

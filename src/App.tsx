@@ -13,8 +13,8 @@ export default function App() {
     <main className="main-container h-screen w-screen">
       <section className="container h-full mx-auto py-10">
         <ToastContainer />
-        <Header />
         <BrowserRouter>
+          <Header />
           <Routes>
             <Route path="" element={<Home />} />
             <Route path="/login" element={<Login />} />
