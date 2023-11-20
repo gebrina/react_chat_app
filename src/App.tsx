@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import Login from "./pages/Login";
 import User from "./pages/User";
 import Chat from "./pages/Chat";
+import Users from "./components/users";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
             <Route path="" element={<User />} />
             <Route path="/login" element={<Login />} />
             <Route path="/:username/chats" element={<Chat />} />
+            <Route path="/users" element={<Users />} />
           </Routes>
         </BrowserRouter>
       </section>

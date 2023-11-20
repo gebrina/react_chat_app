@@ -6,7 +6,8 @@ import {
   FaSignInAlt,
 } from "react-icons/fa";
 import { AuthUser } from "../types/User";
-import { loginUser, storeToken } from "../api";
+import { getToken, loginUser, storeToken } from "../api";
+import { Navigate, useNavigate } from "react-router-dom";
 
 type UserInputError = {
   touched: boolean;
@@ -19,13 +20,18 @@ type Error = {
 };
 
 const Login = () => {
+  const navigate = useNavigate();
+  const token = getToken();
   const defaultUser = { username: "", password: "" };
+
   const [user, setUser] = useState<AuthUser>(defaultUser);
   const [inputType, setInpuType] = useState("password");
   const [error, setError] = useState<AuthUser>(defaultUser);
 
   const passwordIsRequiredErrMsg = "Password is required.";
   const usernameIsRequiredErrMsg = "Username is required.";
+
+  if (token) return <Navigate to={"/users"} />;
 
   const handleUpdateErros = (user: Error) => {
     const { username, password } = user;
@@ -67,7 +73,11 @@ const Login = () => {
 
     if (username && password) {
       const response = await loginUser(user);
-      response && storeToken(response.access_token);
+      if (response) {
+        storeToken(response.access_token);
+        setUser(defaultUser);
+        navigate("/users");
+      }
     }
   };
 
