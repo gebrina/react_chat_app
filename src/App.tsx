@@ -6,12 +6,14 @@ import Chat from "./pages/Chat";
 import Home from "./pages/Home";
 import User from "./pages/User";
 import { ProtectedRoute } from "./components/protected-route";
+import { Header } from "./components/header";
 
 export default function App() {
   return (
     <main className="main-container h-screen w-screen">
-      <section className="container mx-auto py-10">
+      <section className="container h-full mx-auto py-10">
         <ToastContainer />
+        <Header />
         <BrowserRouter>
           <Routes>
             <Route path="" element={<Home />} />

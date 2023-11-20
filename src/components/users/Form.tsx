@@ -7,6 +7,7 @@ type UserFormProps = {
   setUsers: (users: TUser[]) => void;
   users: TUser[];
 };
+
 const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
   const defaultUser = { username: "", password: "" };
   const [user, setUser] = useState(defaultUser);
