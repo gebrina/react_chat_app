@@ -1,15 +1,15 @@
 import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { jwtDecode } from "jwt-decode";
 import axiosInstance from "../axios";
 import { AuthUser, TUser } from "../types/User";
-import { AxiosError } from "axios";
 
 const errorMsg = "Something went wrong.";
 
 const handleAxiosError = (error: unknown) => {
   if (error instanceof AxiosError) {
     const { response } = error;
-
-    toast.error((response as any).data.reason);
+    toast.error(response?.data.reason);
   } else {
     toast.error(errorMsg);
   }
@@ -46,7 +46,9 @@ export const deleteUser = async (id: string) => {
   }
 };
 
-export const loginUser = async (authUser: AuthUser): Promise<string | null> => {
+export const loginUser = async (
+  authUser: AuthUser
+): Promise<{ access_token: "" } | null> => {
   try {
     const response = await axiosInstance.post("/auth/login", authUser);
     return response.data;
@@ -55,3 +57,18 @@ export const loginUser = async (authUser: AuthUser): Promise<string | null> => {
     return null;
   }
 };
+
+export const storeToken = (access_token: string) => {
+  const jwtInfo = JSON.stringify({ access_token });
+  sessionStorage.setItem("token", jwtInfo);
+};
+
+export const getToken = () => {
+  const token = JSON.parse(sessionStorage.getItem("token") || "");
+  if (typeof token === "string") {
+    return null;
+  }
+  return token;
+};
+
+export const getPlainUserInfo = () => jwtDecode(getToken());

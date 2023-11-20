@@ -6,7 +6,7 @@ import {
   FaSignInAlt,
 } from "react-icons/fa";
 import { AuthUser } from "../types/User";
-import { loginUser } from "../api";
+import { loginUser, storeToken } from "../api";
 
 type UserInputError = {
   touched: boolean;
@@ -57,7 +57,7 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { username, password } = user;
     handleUpdateErros({
@@ -66,7 +66,8 @@ const Login = () => {
     });
 
     if (username && password) {
-      loginUser(user);
+      const response = await loginUser(user);
+      response && storeToken(response.access_token);
     }
   };
 
