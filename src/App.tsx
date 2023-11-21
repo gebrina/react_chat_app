@@ -10,13 +10,13 @@ import { Header } from "./components/header";
 
 export default function App() {
   return (
-    <main className="main-container h-screen w-screen">
+    <main className="main-container overflow-hidden h-screen w-screen">
       <section className="container h-full mx-auto py-5">
         <ToastContainer />
         <BrowserRouter>
           <Header />
           <Routes>
-            <Route path="" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route
               path="/:username/chats"

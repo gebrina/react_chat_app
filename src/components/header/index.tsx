@@ -4,8 +4,8 @@ import { NavLink } from "react-router-dom";
 export const Header = () => {
   return (
     <header>
-      <nav className="flex justify-between items-center">
-        <h1 className="text-4xl flex items-center gap-3">
+      <nav className="flex flex-col sm:flex-row gap-5 sm:gap-0 mb-10  justify-between items-center">
+        <h1 className="text-4xl  flex items-center gap-3">
           <span className="w-72 text-pink-500 font-bold text-center">
             <span className="overline"> C_H_A_T</span> me
           </span>
