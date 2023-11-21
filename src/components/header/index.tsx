@@ -10,6 +10,7 @@ export const Header = () => {
             <span className="overline"> C_H_A_T</span> me
           </span>
         </h1>
+
         <ul className="flex items-center text-green-900 cursor-pointer  text-xl gap-12">
           <li
             title="home"

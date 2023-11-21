@@ -123,7 +123,7 @@ const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
       onSubmit={handleSubmit}
       className="flex text-lg gap-3 flex-col text-green-950 items-center justify-center"
     >
-      <h1>Create Account</h1>
+      <h1 className="font-bold text-2xl">Create Account</h1>
       <div className="flex flex-col">
         <label htmlFor="username">User Name</label>
         <input
