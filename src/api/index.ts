@@ -76,5 +76,4 @@ export const getToken = () => {
 export const getPlainUserInfo = () => {
   const token = getToken();
   if (token) return jwtDecode(token);
-  return null;
 };

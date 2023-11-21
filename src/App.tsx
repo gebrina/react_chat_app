@@ -11,7 +11,7 @@ import { Header } from "./components/header";
 export default function App() {
   return (
     <main className="main-container h-screen w-screen">
-      <section className="container h-full mx-auto py-10">
+      <section className="container h-full mx-auto py-5">
         <ToastContainer />
         <BrowserRouter>
           <Header />

@@ -15,7 +15,7 @@ export const Header = () => {
             title="home"
             className="hover:text-pink-900 p-0  hover:scale-125 transition-all"
           >
-            <NavLink to={"/home"}>
+            <NavLink to={"/"}>
               <FaHome />
             </NavLink>
           </li>
