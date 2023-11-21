@@ -8,13 +8,14 @@ import {
 import { AuthUser } from "../types/User";
 import { getToken, loginUser, storeToken } from "../api";
 import { Navigate, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export type UserInputError = {
   touched: boolean;
   value: string;
 };
 
-export type Error = {
+export type UserError = {
   username?: UserInputError;
   password?: UserInputError;
 };
@@ -33,7 +34,7 @@ const Login = () => {
 
   if (token) return <Navigate to={"/users"} />;
 
-  const handleUpdateErros = (user: Error) => {
+  const handleUpdateErros = (user: UserError) => {
     const { username, password } = user;
     if (!username?.value && !password?.value) {
       setError({
@@ -163,6 +164,15 @@ const Login = () => {
         <button className="flex border-[1px] border-green-700 mx-auto px-5 py-1 rounded hover:text-green-700 items-center justify-center gap-2">
           Login <FaSignInAlt />
         </button>
+        <p className="text-lg text-center">
+          Don't have account?
+          <NavLink
+            className={"text-green-600 hover:underline"}
+            to={"/register"}
+          >
+            create one.
+          </NavLink>
+        </p>
       </form>
     </section>
   );

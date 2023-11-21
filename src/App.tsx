@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import User from "./pages/User";
 import { ProtectedRoute } from "./components/protected-route";
 import { Header } from "./components/header";
+import Register from "./pages/Register";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route
               path="/:username/chats"
               element={

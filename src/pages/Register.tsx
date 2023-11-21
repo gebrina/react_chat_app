@@ -1,14 +1,15 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import {
+  FaCheck,
   FaEye,
   FaEyeSlash,
   FaFacebookMessenger,
-  FaSignInAlt,
 } from "react-icons/fa";
 import { AuthUser, TUser } from "../types/User";
 import { postUser } from "../api";
-import { Error } from "./Login";
+import { UserError } from "./Login";
 import { useNavigate } from "react-router-dom";
+import useUsers from "../hooks/useUsers";
 
 const Register = () => {
   const defaultUser = { username: "", password: "" };
@@ -21,7 +22,9 @@ const Register = () => {
   const passwordIsRequiredErrMsg = "Password is required.";
   const usernameIsRequiredErrMsg = "Username is required.";
 
-  const handleUpdateErros = (user: Error) => {
+  const [users] = useUsers();
+
+  const handleUpdateErros = (user: UserError) => {
     const { username, password } = user;
     if (!username?.value && !password?.value) {
       setError({
@@ -82,10 +85,21 @@ const Register = () => {
     } = event;
     const { password } = user;
     setUser(({ password }) => ({ password, username: value }));
-    handleUpdateErros({
-      username: { value, touched: true },
-      password: { value: password, touched: false },
-    });
+    const takenUsername = (users as TUser[]).some(
+      ({ username }) => username === value
+    );
+    console.log(takenUsername);
+    if (takenUsername) {
+      setError(({ password }) => ({
+        password,
+        username: "Username is already taken!",
+      }));
+    } else {
+      handleUpdateErros({
+        username: { value, touched: true },
+        password: { value: password, touched: false },
+      });
+    }
   };
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -148,7 +162,7 @@ const Register = () => {
           )}
         </div>
         <button className="flex border-[1px] border-green-700 mx-auto px-5 py-1 rounded hover:text-green-700 items-center justify-center gap-2">
-          Login <FaSignInAlt />
+          Register <FaCheck />
         </button>
       </form>
     </section>
