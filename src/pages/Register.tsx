@@ -10,6 +10,7 @@ import { postUser } from "../api";
 import { UserError } from "./Login";
 import { useNavigate } from "react-router-dom";
 import useUsers from "../hooks/useUsers";
+import { NavLink } from "react-router-dom";
 
 const Register = () => {
   const defaultUser = { username: "", password: "" };
@@ -164,6 +165,15 @@ const Register = () => {
         <button className="flex border-[1px] border-green-700 mx-auto px-5 py-1 rounded hover:text-green-700 items-center justify-center gap-2">
           Register <FaCheck />
         </button>
+        <p className="text-sm -mt-3 text-center">
+          Already have an account
+          <NavLink
+            className={"text-green-700 px-1 hover:underline"}
+            to={"/login"}
+          >
+            login
+          </NavLink>
+        </p>
       </form>
     </section>
   );

@@ -166,7 +166,7 @@ const Login = () => {
         <button className="flex border-[1px] border-green-700 mx-auto px-5 py-1 rounded hover:text-green-700 items-center justify-center gap-2">
           Login <FaSignInAlt />
         </button>
-        <p className="text-lg text-center">
+        <p className="text-sm -mt-3 text-center">
           Don't have account?
           <NavLink
             className={"text-green-600 px-2 hover:underline"}
