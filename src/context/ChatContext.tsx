@@ -1,11 +1,11 @@
-import { FC, ReactNode, createContext, useState } from "react";
-import { getPlainUserInfo, userLogout } from "../api";
+import { FC, ReactNode, createContext, useEffect, useState } from "react";
+import { getPlainUserInfo, getToken, storeToken, userLogout } from "../api";
 import { TUser } from "../types/User";
 
 type useChatContextProps = {
   isUserLoggedIn: boolean;
   handleLogoutUser: () => void;
-  handleLoginUser: () => void;
+  handleLoginUser: (access_token: string) => void;
   currentUser?: TUser;
 };
 
@@ -20,11 +20,10 @@ export const ChatContext = createContext(defaultProps);
 const ChatContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [values, setValues] = useState<useChatContextProps>(defaultProps);
 
-  const handleLoginUser = () => {
-    const user = getPlainUserInfo();
+  const handleLoginUser = (access_token: string) => {
+    storeToken(access_token);
     setValues((values) => ({
       ...values,
-      currentUser: user,
       isUserLoggedIn: true,
     }));
   };
@@ -37,6 +36,15 @@ const ChatContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }));
   };
 
+  useEffect(() => {
+    const currentUser = getPlainUserInfo();
+    const token = getToken();
+    setValues((values) => ({
+      ...values,
+      isUserLoggedIn: !!token,
+      currentUser,
+    }));
+  }, []);
   return (
     <ChatContext.Provider
       value={{ ...values, handleLoginUser, handleLogoutUser }}

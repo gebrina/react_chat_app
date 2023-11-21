@@ -6,9 +6,10 @@ import {
   FaSignInAlt,
 } from "react-icons/fa";
 import { AuthUser } from "../types/User";
-import { getToken, loginUser, storeToken } from "../api";
+import { loginUser } from "../api";
 import { Navigate, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { useChatContext } from "../context/UseChatContext";
 
 export type UserInputError = {
   touched: boolean;
@@ -22,7 +23,8 @@ export type UserError = {
 
 const Login = () => {
   const navigate = useNavigate();
-  const token = getToken();
+  const { isUserLoggedIn, handleLoginUser } = useChatContext();
+
   const defaultUser = { username: "", password: "" };
 
   const [user, setUser] = useState<AuthUser>(defaultUser);
@@ -32,7 +34,7 @@ const Login = () => {
   const passwordIsRequiredErrMsg = "Password is required.";
   const usernameIsRequiredErrMsg = "Username is required.";
 
-  if (token) return <Navigate to={"/users"} />;
+  if (isUserLoggedIn) return <Navigate to={"/users"} />;
 
   const handleUpdateErros = (user: UserError) => {
     const { username, password } = user;
@@ -75,7 +77,7 @@ const Login = () => {
     if (username && password) {
       const response = await loginUser(user);
       if (response) {
-        storeToken(response.access_token);
+        handleLoginUser(response.access_token);
         setUser(defaultUser);
         navigate("/users");
       }
