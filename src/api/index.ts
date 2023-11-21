@@ -73,9 +73,10 @@ export const getToken = () => {
   return token;
 };
 
-export const getPlainUserInfo = () => {
+export const getPlainUserInfo = (): TUser | undefined => {
   const token = getToken();
   if (token) return jwtDecode(token);
+  return undefined;
 };
 
 export const userLogout = () => sessionStorage.removeItem("token");
