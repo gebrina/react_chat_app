@@ -22,7 +22,7 @@ const Register = () => {
   const passwordIsRequiredErrMsg = "Password is required.";
   const usernameIsRequiredErrMsg = "Username is required.";
 
-  const [users] = useUsers();
+  const { users } = useUsers();
 
   const handleUpdateErros = (user: UserError) => {
     const { username, password } = user;

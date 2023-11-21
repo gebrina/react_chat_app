@@ -189,11 +189,12 @@ const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
        py-1 px-5
        gap-2
        rounded-md
-       hover:border-green-950
+       hover:text-green-800
+       hover:border-green-800
        flex items-center text-xl
         text-green-950"
       >
-        <FaSave /> Save
+        Save <FaSave />
       </button>
     </form>
   );

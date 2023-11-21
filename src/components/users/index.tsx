@@ -1,20 +1,10 @@
-import { useEffect, useState } from "react";
-import { getUsers } from "../../api";
 import UserForm from "./Form";
-import { TUser } from "../../types/User";
 import User from "./User";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import useUsers from "../../hooks/useUsers";
 
 const Users = () => {
-  const [users, setUsers] = useState<TUser[]>([]);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const usersData = await getUsers();
-      setUsers(usersData);
-    };
-    fetchUsers();
-  }, []);
+  const { users, setUsers } = useUsers();
 
   return (
     <section>
