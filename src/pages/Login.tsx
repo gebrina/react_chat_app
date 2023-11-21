@@ -167,7 +167,7 @@ const Login = () => {
         <p className="text-lg text-center">
           Don't have account?
           <NavLink
-            className={"text-green-600 hover:underline"}
+            className={"text-green-600 px-2 hover:underline"}
             to={"/register"}
           >
             create one.

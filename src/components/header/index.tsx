@@ -1,7 +1,17 @@
-import { FaHome, FaSignOutAlt, FaUsers } from "react-icons/fa";
+import { FaHome, FaUsers } from "react-icons/fa";
+import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
+import { getToken, userLogout } from "../../api";
+import { useState } from "react";
 
 export const Header = () => {
+  const [token, setToken] = useState(getToken());
+
+  const handleLogout = () => {
+    userLogout();
+    setToken(getToken());
+  };
+
   return (
     <header>
       <nav className="flex flex-col sm:flex-row gap-5 sm:gap-0 mb-10  justify-between items-center">
@@ -29,11 +39,12 @@ export const Header = () => {
             </NavLink>
           </li>
           <li
-            title={"logout"}
+            title={`${token ? "Logout" : "Login"}`}
+            onClick={handleLogout}
             className="hover:text-pink-900 hover:scale-125 transition-all"
           >
-            <NavLink to={"/login"}>
-              <FaSignOutAlt />
+            <NavLink to={`/login`}>
+              {token ? <BiLogOut /> : <BiLogIn />}
             </NavLink>
           </li>
         </ul>

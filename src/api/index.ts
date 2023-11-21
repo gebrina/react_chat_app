@@ -77,3 +77,5 @@ export const getPlainUserInfo = () => {
   const token = getToken();
   if (token) return jwtDecode(token);
 };
+
+export const userLogout = () => sessionStorage.removeItem("token");
