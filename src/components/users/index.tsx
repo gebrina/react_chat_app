@@ -16,7 +16,8 @@ const Users = () => {
           <button
             onClick={() => setUser(!addUser)}
             className="flex items-center
-            absolute md:left-[55%]
+            absolute md:left-[20%]
+            w-max
             right-12
          gap-1 mx-auto border-[1px]
           text-red-700 hover:border-red-700

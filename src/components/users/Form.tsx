@@ -131,13 +131,13 @@ const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
         <input
           className={`
           bg-transparent 
-         shadow-lg
-         px-3 py-1
-         rounded
-         border-[1px]
+          shadow-lg
+          px-3 py-1
+          rounded
+          border-[1px]
          shadow-green-50
         ${!error.username ? "border-green-950" : "border-red-800"}
-         outline-none
+          outline-none
           `}
           id="username"
           type="text"
