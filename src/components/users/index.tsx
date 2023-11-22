@@ -43,17 +43,22 @@ const Users = () => {
           <UserForm users={users} setUsers={setUsers} />
         </>
       ) : (
-        <button
-          onClick={() => setUser(!addUser)}
-          className="flex items-center
+        <div className="flex  mx-auto w-max items-center">
+          <h1 className="font-bold text-xl my-2 mx-4  text-green-700">
+            Your Contacts
+          </h1>
+          <button
+            onClick={() => setUser(!addUser)}
+            className="flex items-center
          gap-1 mx-auto border-[1px]
           text-red-700 hover:border-green-700
          transition-all py-1 px-4 rounded-lg"
-        >
-          add contacts <FaPlus />
-        </button>
+          >
+            add contacts <FaPlus />
+          </button>
+        </div>
       )}
-      <section className="flex my-5 items-center flex-col gap-2">
+      <section className="flex px-3 my-5 items-center flex-col gap-2">
         {users.slice(startIndex, startIndex + itemsPerPage).map((user) => (
           <User setUsers={setUsers} user={user} key={user.id} />
         ))}
