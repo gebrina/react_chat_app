@@ -12,7 +12,6 @@ type UserProps = {
 
 const User: FC<UserProps> = ({ user: { username, id }, setUsers }) => {
   const { currentUser } = useChatContext();
-
   const handleDelete = async () => {
     const users = await deleteUser(id);
     users && setUsers(users);

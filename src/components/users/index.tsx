@@ -6,7 +6,23 @@ import { useState } from "react";
 
 const Users = () => {
   const { users, setUsers } = useUsers();
+
   const [addUser, setUser] = useState(false);
+  const [startIndex, setStartIndex] = useState(0);
+  const endIndex = users.length - 1;
+  const itemsPerPage = 5;
+
+  const handleNextPage = () => {
+    if (startIndex + itemsPerPage < endIndex) {
+      setStartIndex(startIndex + itemsPerPage);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (startIndex > 0) {
+      setStartIndex(startIndex - itemsPerPage);
+    }
+  };
 
   return (
     <section className="relative">
@@ -38,12 +54,26 @@ const Users = () => {
         </button>
       )}
       <section className="flex my-5 items-center flex-col gap-2">
-        {users.map((user) => (
+        {users.slice(startIndex, startIndex + itemsPerPage).map((user) => (
           <User setUsers={setUsers} user={user} key={user.id} />
         ))}
         <div className="flex gap-10 my-2">
-          <FaArrowLeft className="text-green-900 text-xl hover:text-opacity-50 cursor-pointer" />
-          <FaArrowRight className="text-green-900 text-xl hover:text-opacity-50 cursor-pointer" />
+          <FaArrowLeft
+            onClick={handlePrevPage}
+            className={`${
+              startIndex === 0
+                ? "text-green-600 text-opacity-60 cursor-not-allowed"
+                : "text-green-900"
+            } text-xl hover:text-opacity-60 cursor-pointer`}
+          />
+          <FaArrowRight
+            onClick={handleNextPage}
+            className={` ${
+              startIndex + itemsPerPage >= endIndex
+                ? "text-green-600 text-opacity-60 cursor-not-allowed"
+                : "text-green-900"
+            } text-xl hover:text-opacity-50 cursor-pointer`}
+          />
         </div>
       </section>
     </section>

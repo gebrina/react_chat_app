@@ -40,8 +40,10 @@ const ChatContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     const token = getToken();
+    const currentUser = getPlainUserInfo();
     setValues((values) => ({
       ...values,
+      currentUser,
       isUserLoggedIn: !!token,
     }));
   }, []);
