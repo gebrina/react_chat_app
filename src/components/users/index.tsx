@@ -3,10 +3,11 @@ import User from "./User";
 import { FaArrowLeft, FaArrowRight, FaPlus, FaXbox } from "react-icons/fa";
 import useUsers from "../../hooks/useUsers";
 import { useState } from "react";
+import { useChatContext } from "../../context/UseChatContext";
 
 const Users = () => {
   const { users, setUsers } = useUsers();
-
+  const { currentUser } = useChatContext();
   const [addUser, setUser] = useState(false);
 
   return (

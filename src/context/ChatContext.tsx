@@ -22,8 +22,10 @@ const ChatContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const handleLoginUser = (access_token: string) => {
     storeToken(access_token);
+    const currentUser = getPlainUserInfo();
     setValues((values) => ({
       ...values,
+      currentUser,
       isUserLoggedIn: true,
     }));
   };
@@ -37,14 +39,13 @@ const ChatContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   useEffect(() => {
-    const currentUser = getPlainUserInfo();
     const token = getToken();
     setValues((values) => ({
       ...values,
       isUserLoggedIn: !!token,
-      currentUser,
     }));
   }, []);
+
   return (
     <ChatContext.Provider
       value={{ ...values, handleLoginUser, handleLogoutUser }}

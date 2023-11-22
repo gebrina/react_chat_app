@@ -75,7 +75,8 @@ export const getToken = () => {
 
 export const getPlainUserInfo = (): TUser | undefined => {
   const token = getToken();
-  if (token) return jwtDecode(token);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if (token) return jwtDecode((token as any).access_token);
   return undefined;
 };
 
