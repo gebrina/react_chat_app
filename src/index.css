@@ -18,3 +18,9 @@
   );
   background-size: 15px 15px;
 }
+
+.special-icon {
+  @apply cursor-pointer hover:bg-green-500
+   hover:text-white rounded hover:shadow-lg
+   hover:shadow-green-400 text-green-600;
+}
