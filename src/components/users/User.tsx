@@ -12,6 +12,7 @@ type UserProps = {
 
 const User: FC<UserProps> = ({ user: { username, id }, setUsers }) => {
   const { currentUser } = useChatContext();
+
   const handleDelete = async () => {
     const users = await deleteUser(id);
     users && setUsers(users);
@@ -23,7 +24,7 @@ const User: FC<UserProps> = ({ user: { username, id }, setUsers }) => {
         <div className="px-3 items-center flex justify-between  border-[1px] w-full  sm:w-1/3 text-center capitalize border-opacity-20 rounded hover:border-opacity-50  border-green-950 ">
           <NavLink
             className="flex-1 py-2 cursor-pointer text-left hover:animate-pulse font"
-            to={`/${username}/chat`}
+            to={`/${username}/chats`}
           >
             <span>{username}</span>
           </NavLink>
