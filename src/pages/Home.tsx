@@ -1,4 +1,5 @@
 import { FaCheck, FaFacebookMessenger, FaQuestionCircle } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -11,7 +12,8 @@ const Home = () => {
               <FaFacebookMessenger className="text-4xl text-green-800" />
             </span>
           </h2>
-          <button
+          <NavLink
+            to={"/register"}
             className="text-xl w-max self-start 
             border-2
             border-green-700 px-3 
@@ -23,7 +25,7 @@ const Home = () => {
           "
           >
             Create account
-          </button>
+          </NavLink>
         </div>
 
         <div className="flex-1/2">
@@ -45,7 +47,7 @@ const Home = () => {
 
             <li className="flex items-center gap-2">
               <FaCheck className="text-green-800" />
-              <p>Create your friends account and start chatting.</p>
+              <p>Create contacts and start chatting.</p>
             </li>
           </ul>
         </div>
