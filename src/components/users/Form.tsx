@@ -30,7 +30,9 @@ const UserForm: FC<UserFormProps> = ({ setUsers, users }) => {
   const usernameLengthError = username + errorMsgs.length;
 
   const isTakenUsername = (value: string) =>
-    users.some(({ username }) => username === value);
+    users.some(
+      ({ username }) => username.toLowerCase() === value.toLowerCase()
+    );
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
