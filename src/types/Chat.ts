@@ -1,3 +1,4 @@
+import { TRoom } from "./Room";
 import { TUser } from "./User";
 
 export type TChat = {
@@ -5,4 +6,5 @@ export type TChat = {
   message: string;
   createdAt: Date;
   user: TUser;
+  room: TRoom;
 };

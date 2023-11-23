@@ -14,7 +14,9 @@ type ChatBoardProps = {
 
 const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
   const [chats, setChats] = useState<TChat[]>([]);
+
   const { username } = useParams();
+  const [socketId, setSocketId] = useState("");
 
   useEffect(() => {
     const handleChat = (chat: TChat) => {
@@ -32,23 +34,33 @@ const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
     <section
       className="w-full 
       md:w-1/2 mx-auto 
-      h-full md:h-[80%] 
+      h-[80%]
       border-2 relative
-      p-3 rounded-2xl
-    flex flex-col
-    border-opacity-50
-    gap-2
+      rounded-2xl
+      pt-3
+      flex flex-col
+      border-opacity-50
+      gap-2
      border-green-500
+     overflow-hidden
      "
     >
-      <div className="flex justify-between">
+      <div className="flex px-3 py-1 justify-between  border-b-green-300 border-b-2">
         <div className="flex text-xl text-green-600 gap-2 items-center">
           <FaUser /> {username}
         </div>
         <BiLogOutCircle className="text-2xl special-icon" />
       </div>
-      <ChatBody />
-      <ChatForm socket={socket} />
+      <div className="flex-1">
+        {chats.map((chat, index) => (
+          <ChatBody
+            key={index + "" + Math.random()}
+            id={socketId}
+            chat={chat}
+          />
+        ))}
+      </div>
+      <ChatForm room={roomName} socket={socket} />
     </section>
   );
 };
