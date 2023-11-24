@@ -72,16 +72,16 @@ const Users = () => {
             className={`${
               startIndex === 0
                 ? "text-green-600 text-opacity-60 cursor-not-allowed"
-                : "text-green-900"
-            } text-xl hover:text-opacity-60 cursor-pointer`}
+                : "text-green-900  cursor-pointer"
+            } text-xl hover:text-opacity-60`}
           />
           <FaArrowRight
             onClick={handleNextPage}
             className={` ${
               startIndex + itemsPerPage >= endIndex
                 ? "text-green-600 text-opacity-60 cursor-not-allowed"
-                : "text-green-900"
-            } text-xl hover:text-opacity-50 cursor-pointer`}
+                : "text-green-900 cursor-pointer"
+            } text-xl hover:text-opacity-50 `}
           />
         </div>
       </section>
