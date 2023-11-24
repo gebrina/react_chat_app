@@ -61,8 +61,8 @@ const Users = () => {
       )}
 
       <section className="flex px-3 my-5 items-center flex-col gap-2">
-        {/* <Search users={users} setUsers={setUsers}/> */}
-        <Search />
+        <Search setUsers={setUsers} />
+
         {users.slice(startIndex, startIndex + itemsPerPage).map((user) => (
           <User setUsers={setUsers} user={user} key={user.id} />
         ))}
