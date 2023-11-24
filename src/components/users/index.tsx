@@ -3,6 +3,7 @@ import User from "./User";
 import { FaArrowLeft, FaArrowRight, FaPlus, FaXbox } from "react-icons/fa";
 import useUsers from "../../hooks/useUsers";
 import { useState } from "react";
+import Search from "./Search";
 
 const Users = () => {
   const { users, setUsers } = useUsers();
@@ -58,7 +59,10 @@ const Users = () => {
           </button>
         </div>
       )}
+
       <section className="flex px-3 my-5 items-center flex-col gap-2">
+        {/* <Search users={users} setUsers={setUsers}/> */}
+        <Search />
         {users.slice(startIndex, startIndex + itemsPerPage).map((user) => (
           <User setUsers={setUsers} user={user} key={user.id} />
         ))}
