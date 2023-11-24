@@ -11,21 +11,25 @@ const Search: FC<SearchProps> = ({ setUsers }) => {
   const { users: allUsers } = useUsers();
   let searchTimeOut: ReturnType<typeof setTimeout>;
 
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-
+  const handleFilterUsers = (username: string) => {
     searchTimeOut && clearTimeout(searchTimeOut);
 
     searchTimeOut = setTimeout(() => {
       const filterdUsers = allUsers.filter((user) =>
-        user.username.toLowerCase().includes(value.toLowerCase())
+        user.username.toLowerCase().includes(username)
       );
+
       if (filterdUsers.length) {
         setUsers(filterdUsers);
       } else {
         setUsers(allUsers);
       }
     }, 500);
+  };
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    handleFilterUsers(value.toLocaleLowerCase());
   };
 
   return (
