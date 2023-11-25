@@ -29,7 +29,11 @@ const ChatForm: FC<ChatFormProps> = ({ socket, room, chatBody }) => {
       e.preventDefault();
       const text = e.clipboardData?.getData("text/plain");
       text && setMessage(text);
-      if (current && text) current.textContent += text;
+      if (current && text) {
+        current.textContent
+          ? (current.textContent += text)
+          : (current.textContent = text);
+      }
     };
 
     current && document.addEventListener("paste", handlePasteEvent);

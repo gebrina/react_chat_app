@@ -56,7 +56,10 @@ const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
         </div>
         <BiLogOutCircle className="text-2xl special-icon" />
       </div>
-      <div ref={chatBodyRef} className="flex-1 chat-body overflow-y-scroll">
+      <div
+        ref={chatBodyRef}
+        className="flex-1 chat-body overflow-x-hidden overflow-y-scroll"
+      >
         {chats.map((chat, index) => (
           <ChatBody key={index + "" + Math.random()} chat={chat} />
         ))}
