@@ -79,7 +79,7 @@ const ChatForm: FC<ChatFormProps> = ({ socket, room, chatBody }) => {
       <div
         ref={messageInputRef}
         contentEditable={true}
-        onKeyDown={handleMessageChange}
+        onKeyUp={handleMessageChange}
         placeholder="type some..."
         className={`
         bg-transparent 
