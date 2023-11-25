@@ -6,6 +6,8 @@ import ChatBody from "./ChatBody";
 import { useParams } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { BiLogOutCircle } from "react-icons/bi";
+import { getChatsByRoom } from "../../api";
+import { scrollToBottom } from "../../utils";
 
 type ChatBoardProps = {
   socket: Socket;
@@ -22,10 +24,7 @@ const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
   useEffect(() => {
     const handleChat = (chat: TChat) => {
       setChats((chats) => [...chats, chat]);
-      const { current } = chatBodyRef;
-      setTimeout(() => {
-        current?.scrollTo({ behavior: "smooth", top: current.scrollHeight });
-      }, 50);
+      handleScrollToBtm();
     };
 
     socket.on(roomName, handleChat);
@@ -34,6 +33,22 @@ const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
       socket.off(roomName, handleChat);
     };
   }, [socket, roomName]);
+
+  useEffect(() => {
+    if (roomName) {
+      const getChats = async () => {
+        const chats = await getChatsByRoom(roomName);
+        chats && setChats(chats);
+        handleScrollToBtm();
+      };
+      getChats();
+    }
+  }, [roomName]);
+
+  const handleScrollToBtm = () => {
+    const { current } = chatBodyRef;
+    current && scrollToBottom(current);
+  };
 
   return (
     <section

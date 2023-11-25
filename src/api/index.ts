@@ -3,6 +3,7 @@ import { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
 import axiosInstance from "../axios";
 import { AuthUser, TUser } from "../types/User";
+import { TChat } from "../types/Chat";
 
 const errorMsg = "Something went wrong.";
 
@@ -58,6 +59,18 @@ export const loginUser = async (
   }
 };
 
+export const getChatsByRoom = async (
+  roomName: string
+): Promise<TChat[] | null> => {
+  try {
+    const response = await axiosInstance.get(`/chats/${roomName}`);
+    return response.data;
+  } catch (e) {
+    handleAxiosError(e);
+    return null;
+  }
+};
+
 export const storeToken = (access_token: string) => {
   const jwtInfo = JSON.stringify({ access_token });
   sessionStorage.setItem("token", jwtInfo);
@@ -76,7 +89,7 @@ export const getToken = () => {
 export const getPlainUserInfo = (): TUser | undefined => {
   const token = getToken();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (token) return jwtDecode((token as any).access_token).user;
+  if (token) return (jwtDecode((token as any).access_token) as any).user;
   return undefined;
 };
 

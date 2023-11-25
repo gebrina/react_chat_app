@@ -11,6 +11,7 @@ import { Socket } from "socket.io-client";
 import { TChat } from "../../types/Chat";
 import { useChatContext } from "../../context/UseChatContext";
 import { TUser } from "../../types/User";
+import { scrollToBottom } from "../../utils";
 
 type ChatFormProps = {
   socket: Socket;
@@ -53,11 +54,6 @@ const ChatForm: FC<ChatFormProps> = ({ socket, room, chatBody }) => {
     const form = event.target as HTMLFormElement;
     form.classList.add("animate-bounce");
 
-    setTimeout(() => {
-      form.classList.remove("animate-bounce");
-      chatBody?.scrollTo({ behavior: "smooth", top: chatBody.scrollHeight });
-    }, 50);
-
     const chat: TChat = {
       message,
       createdAt: new Date(),
@@ -70,12 +66,18 @@ const ChatForm: FC<ChatFormProps> = ({ socket, room, chatBody }) => {
         chat: [],
       },
     };
+
     socket.emit("message", chat);
     setMessage("");
     const { current } = messageInputRef;
     if (current) {
       current.textContent = "";
     }
+    setTimeout(() => {
+      form.classList.remove("animate-bounce");
+    }, 50);
+
+    chatBody && scrollToBottom(chatBody);
   };
 
   return (
