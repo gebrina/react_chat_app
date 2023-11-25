@@ -41,7 +41,7 @@ const ChatBody: FC<ChatBodyProps> = ({ chat }) => {
         ref={timeRef}
         className="text-sm block mt-2 text-slate-800 text-opacity-50"
       >
-        {formatDistanceToNow(new Date(createdAt))} + ago
+        {formatDistanceToNow(new Date(createdAt))} ago
       </span>
     </p>
   );

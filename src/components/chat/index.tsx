@@ -15,7 +15,7 @@ const MainChat = () => {
   }
 
   useEffect(() => {
-    roomName && socket.emit("init-chat", { room: roomName });
+    roomName && socket.emit("init-chat", roomName);
   }, [roomName]);
 
   return <ChatBoard socket={socket} roomName={roomName} />;
