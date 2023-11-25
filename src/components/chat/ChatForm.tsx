@@ -15,9 +15,10 @@ import { TUser } from "../../types/User";
 type ChatFormProps = {
   socket: Socket;
   room: string;
+  chatBody: HTMLDivElement | null;
 };
 
-const ChatForm: FC<ChatFormProps> = ({ socket, room }) => {
+const ChatForm: FC<ChatFormProps> = ({ socket, room, chatBody }) => {
   const [message, setMessage] = useState("");
   const { currentUser } = useChatContext();
   const messageInputRef = useRef<HTMLDivElement | null>(null);
@@ -29,7 +30,8 @@ const ChatForm: FC<ChatFormProps> = ({ socket, room }) => {
 
     setTimeout(() => {
       form.classList.remove("animate-bounce");
-    }, 500);
+      chatBody?.scrollTo({ behavior: "smooth", top: chatBody.scrollHeight });
+    }, 50);
 
     const chat: TChat = {
       message,
@@ -57,9 +59,7 @@ const ChatForm: FC<ChatFormProps> = ({ socket, room }) => {
       e.preventDefault();
       const text = e.clipboardData?.getData("text/plain");
       text && setMessage(text);
-      if (current && text) {
-        current.textContent = text;
-      }
+      if (current && text) current.textContent += text;
     };
 
     current && document.addEventListener("paste", handlePasteEvent);

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
 import { TChat } from "../../types/Chat";
 import ChatForm from "./ChatForm";
@@ -17,9 +17,15 @@ const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
 
   const { username } = useParams();
 
+  const chatBodyRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const handleChat = (chat: TChat) => {
       setChats((chats) => [...chats, chat]);
+      const { current } = chatBodyRef;
+      setTimeout(() => {
+        current?.scrollTo({ behavior: "smooth", top: current.scrollHeight });
+      }, 50);
     };
 
     socket.on(roomName, handleChat);
@@ -50,12 +56,16 @@ const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
         </div>
         <BiLogOutCircle className="text-2xl special-icon" />
       </div>
-      <div className="flex-1 overflow-y-scroll">
+      <div ref={chatBodyRef} className="flex-1 overflow-y-scroll">
         {chats.map((chat, index) => (
           <ChatBody key={index + "" + Math.random()} chat={chat} />
         ))}
       </div>
-      <ChatForm room={roomName} socket={socket} />
+      <ChatForm
+        chatBody={chatBodyRef.current}
+        room={roomName}
+        socket={socket}
+      />
     </section>
   );
 };

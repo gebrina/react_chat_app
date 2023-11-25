@@ -12,6 +12,7 @@ const ChatBody: FC<ChatBodyProps> = ({ chat }) => {
   const {
     message,
     user: { username },
+    createdAt,
   } = chat;
   return (
     <p
