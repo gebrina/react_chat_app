@@ -1,4 +1,11 @@
-import { ChangeEvent, FC, FormEvent, useState } from "react";
+import {
+  KeyboardEvent,
+  FC,
+  FormEvent,
+  useRef,
+  useState,
+  useEffect,
+} from "react";
 import { BiLogoTelegram } from "react-icons/bi";
 import { Socket } from "socket.io-client";
 import { TChat } from "../../types/Chat";
@@ -13,14 +20,17 @@ type ChatFormProps = {
 const ChatForm: FC<ChatFormProps> = ({ socket, room }) => {
   const [message, setMessage] = useState("");
   const { currentUser } = useChatContext();
+  const messageInputRef = useRef<HTMLDivElement | null>(null);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
     form.classList.add("animate-bounce");
+
     setTimeout(() => {
       form.classList.remove("animate-bounce");
     }, 500);
+
     const chat: TChat = {
       message,
       createdAt: new Date(),
@@ -35,43 +45,63 @@ const ChatForm: FC<ChatFormProps> = ({ socket, room }) => {
     };
     socket.emit("message", chat);
     setMessage("");
+    const { current } = messageInputRef;
+    if (current) {
+      current.textContent = "";
+    }
   };
 
-  const handleMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const messageInputElement = e.target;
-    messageInputElement.style.height = `${messageInputElement.scrollHeight}px`;
+  useEffect(() => {
+    const { current } = messageInputRef;
+    const handlePasteEvent = (e: ClipboardEvent) => {
+      e.preventDefault();
+      const text = e.clipboardData?.getData("text/plain");
+      text && setMessage(text);
+      if (current && text) {
+        current.textContent = text;
+      }
+    };
 
-    const { value } = e.target;
-    setMessage(value);
+    current && document.addEventListener("paste", handlePasteEvent);
+
+    return () => {
+      current?.removeEventListener("paste", handlePasteEvent);
+    };
+  }, []);
+
+  const handleMessageChange = (e: KeyboardEvent<HTMLDivElement>) => {
+    const { innerText } = e.target as HTMLDivElement;
+    setMessage(innerText);
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex items-center -mb-1">
-      <textarea
-        value={message}
-        onChange={handleMessageChange}
+      <div
+        ref={messageInputRef}
+        contentEditable={true}
+        onKeyDown={handleMessageChange}
         placeholder="type some..."
-        className="
-        h-10
+        className={`
         bg-transparent 
+        min-h-[40px]
+        selection:none
         w-full outline-none  
         rounded-sm text-xl
         resize-none
         px-2 py-1 border-opacity-40
          border-green-800 
          border-[1px]
-         overflow-hidden
-         "
+        `}
       />
-      <button className="self-end mb-2">
+      <button className="self-end bg-green-700 px-2 py-[1.8px]">
         <BiLogoTelegram
           className="text-4xl
-       cursor-pointer 
-       hover:animate-pulse 
-       rotate-45 
-
-       hover:bg-transparent
-        text-green-600"
+                     rounded-full
+                    cursor-pointer
+                     bg-white 
+                    hover:animate-pulse 
+                    rotate-45 
+                  text-green-800"
         />
       </button>
     </form>
