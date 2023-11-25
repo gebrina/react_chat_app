@@ -37,33 +37,43 @@ const ChatForm: FC<ChatFormProps> = ({ socket, room }) => {
     setMessage("");
   };
 
-  const handleMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const messageInputElement = e.target;
+    messageInputElement.style.height = `${messageInputElement.scrollHeight}px`;
+
     const { value } = e.target;
     setMessage(value);
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex items-center -mb-1">
-      <input
+      <textarea
         value={message}
         onChange={handleMessageChange}
-        placeholder="say some..."
+        placeholder="type some..."
         className="
+        h-10
         bg-transparent 
         w-full outline-none  
         rounded-sm text-xl
-        px-2 border-opacity-40
+        resize-none
+        px-2 py-1 border-opacity-40
          border-green-800 
-         border-[1px]"
+         border-[1px]
+         overflow-hidden
+         "
       />
-      <BiLogoTelegram
-        className="text-4xl
+      <button className="self-end mb-2">
+        <BiLogoTelegram
+          className="text-4xl
        cursor-pointer 
        hover:animate-pulse 
        rotate-45 
+
        hover:bg-transparent
         text-green-600"
-      />
+        />
+      </button>
     </form>
   );
 };

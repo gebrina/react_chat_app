@@ -16,7 +16,6 @@ const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
   const [chats, setChats] = useState<TChat[]>([]);
 
   const { username } = useParams();
-  const [socketId, setSocketId] = useState("");
 
   useEffect(() => {
     const handleChat = (chat: TChat) => {
@@ -53,11 +52,7 @@ const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
       </div>
       <div className="flex-1">
         {chats.map((chat, index) => (
-          <ChatBody
-            key={index + "" + Math.random()}
-            id={socketId}
-            chat={chat}
-          />
+          <ChatBody key={index + "" + Math.random()} chat={chat} />
         ))}
       </div>
       <ChatForm room={roomName} socket={socket} />

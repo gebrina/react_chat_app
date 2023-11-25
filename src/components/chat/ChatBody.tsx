@@ -3,7 +3,6 @@ import { TChat } from "../../types/Chat";
 import { useChatContext } from "../../context/UseChatContext";
 
 type ChatBodyProps = {
-  id: string;
   chat: TChat;
 };
 
