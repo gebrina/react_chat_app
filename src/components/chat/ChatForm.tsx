@@ -23,6 +23,27 @@ const ChatForm: FC<ChatFormProps> = ({ socket, room, chatBody }) => {
   const { currentUser } = useChatContext();
   const messageInputRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    const { current } = messageInputRef;
+    const handlePasteEvent = (e: ClipboardEvent) => {
+      e.preventDefault();
+      const text = e.clipboardData?.getData("text/plain");
+      text && setMessage(text);
+      if (current && text) current.textContent += text;
+    };
+
+    current && document.addEventListener("paste", handlePasteEvent);
+
+    return () => {
+      current?.removeEventListener("paste", handlePasteEvent);
+    };
+  }, []);
+
+  const handleMessageChange = (e: KeyboardEvent<HTMLDivElement>) => {
+    const { innerText } = e.target as HTMLDivElement;
+    setMessage(innerText);
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
@@ -51,27 +72,6 @@ const ChatForm: FC<ChatFormProps> = ({ socket, room, chatBody }) => {
     if (current) {
       current.textContent = "";
     }
-  };
-
-  useEffect(() => {
-    const { current } = messageInputRef;
-    const handlePasteEvent = (e: ClipboardEvent) => {
-      e.preventDefault();
-      const text = e.clipboardData?.getData("text/plain");
-      text && setMessage(text);
-      if (current && text) current.textContent += text;
-    };
-
-    current && document.addEventListener("paste", handlePasteEvent);
-
-    return () => {
-      current?.removeEventListener("paste", handlePasteEvent);
-    };
-  }, []);
-
-  const handleMessageChange = (e: KeyboardEvent<HTMLDivElement>) => {
-    const { innerText } = e.target as HTMLDivElement;
-    setMessage(innerText);
   };
 
   return (
