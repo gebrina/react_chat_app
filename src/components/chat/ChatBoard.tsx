@@ -16,6 +16,7 @@ type ChatBoardProps = {
 
 const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
   const [chats, setChats] = useState<TChat[]>([]);
+  const [typing, setTyping] = useState("");
 
   const { username } = useParams();
 
@@ -25,12 +26,19 @@ const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
     const handleChat = (chat: TChat) => {
       setChats((chats) => [...chats, chat]);
       handleScrollToBtm();
+      setTyping("");
+    };
+    const handleTyping = (msg: string) => {
+      console.log("typing");
+      setTyping(msg);
     };
 
     socket.on(roomName, handleChat);
+    socket.on("typing", handleTyping);
 
     return () => {
       socket.off(roomName, handleChat);
+      socket.off("typing", handleTyping);
     };
   }, [socket, roomName]);
 
@@ -66,8 +74,18 @@ const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
      "
     >
       <div className="flex px-3 py-1 justify-between  border-b-green-300 border-b-2">
-        <div className="flex text-xl text-green-600 gap-2 items-center">
-          <FaUser /> {username}
+        <div className="flex text-xl flex-col text-green-600  items-center">
+          <div className="flex gap-2 items-center">
+            <FaUser /> {username}
+          </div>
+          {typing && (
+            <p className="text-slate-500  flex text-sm">
+              {typing}
+              <span className="animate-pulse h-1 block">.</span>
+              <span className="animate-bounce h-1  block">.</span>
+              <span className="animate-pulse  h-1 block">.</span>
+            </p>
+          )}
         </div>
         <BiLogOutCircle className="text-2xl special-icon" />
       </div>

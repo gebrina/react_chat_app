@@ -46,6 +46,7 @@ const ChatForm: FC<ChatFormProps> = ({ socket, room, chatBody }) => {
 
   const handleMessageChange = (e: KeyboardEvent<HTMLDivElement>) => {
     const { innerText } = e.target as HTMLDivElement;
+    socket.emit("typing", room);
     setMessage(innerText);
   };
 
