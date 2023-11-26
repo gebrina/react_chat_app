@@ -4,9 +4,11 @@ import { FaArrowLeft, FaArrowRight, FaPlus, FaXbox } from "react-icons/fa";
 import useUsers from "../../hooks/useUsers";
 import { useState } from "react";
 import Search from "./Search";
+import { useChatContext } from "../../context/UseChatContext";
 
 const Users = () => {
   const { users, setUsers } = useUsers();
+  const { currentUser } = useChatContext();
 
   const [addUser, setUser] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
@@ -27,6 +29,13 @@ const Users = () => {
 
   return (
     <section className="relative">
+      <section className="text-3xl mb-2 flex justify-center gap-2 capitalize">
+        <h3 className="text-green-900">Welcome</h3>
+        <h3 className="text-pink-900 font-bold underline">
+          {currentUser?.username}
+        </h3>
+      </section>
+
       {addUser ? (
         <>
           <button

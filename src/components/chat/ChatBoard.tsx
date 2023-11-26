@@ -3,7 +3,7 @@ import { Socket } from "socket.io-client";
 import { TChat } from "../../types/Chat";
 import ChatForm from "./ChatForm";
 import ChatBody from "./ChatBody";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { BiLogOutCircle } from "react-icons/bi";
 import { getChatsByRoom } from "../../api";
@@ -17,6 +17,7 @@ type ChatBoardProps = {
 const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
   const [chats, setChats] = useState<TChat[]>([]);
   const [typing, setTyping] = useState("");
+  const navigate = useNavigate();
 
   const { username } = useParams();
 
@@ -58,6 +59,10 @@ const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
     current && scrollToBottom(current);
   };
 
+  const handleLogout = () => {
+    socket.emit("end-chat", roomName);
+    navigate("/users");
+  };
   return (
     <section
       className="w-full 
@@ -87,7 +92,10 @@ const ChatBoard: FC<ChatBoardProps> = ({ socket, roomName }) => {
             </p>
           )}
         </div>
-        <BiLogOutCircle className="text-2xl special-icon" />
+        <BiLogOutCircle
+          onClick={handleLogout}
+          className="text-2xl special-icon"
+        />
       </div>
       <div
         ref={chatBodyRef}
