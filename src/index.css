@@ -24,3 +24,11 @@
    hover:text-white rounded hover:shadow-lg
    hover:shadow-green-400 text-green-600;
 }
+
+header .link {
+  @apply hover:text-pink-900 hover:scale-125 transition-all;
+}
+
+.active {
+  @apply text-pink-900 scale-150;
+}

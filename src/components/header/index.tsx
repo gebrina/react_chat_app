@@ -16,18 +16,12 @@ export const Header = () => {
         </h1>
 
         <ul className="flex items-center text-green-900 cursor-pointer  text-xl gap-12">
-          <li
-            title="home"
-            className="hover:text-pink-900 p-0  hover:scale-125 transition-all"
-          >
+          <li title="home" className="link">
             <NavLink to={"/"}>
               <FaHome />
             </NavLink>
           </li>
-          <li
-            title="users"
-            className="hover:text-pink-900 hover:scale-125 transition-all"
-          >
+          <li title="users" className="link">
             <NavLink to={"/users"}>
               <FaUsers />
             </NavLink>
@@ -35,7 +29,7 @@ export const Header = () => {
           <li
             title={`${isUserLoggedIn ? "Logout" : "Login"}`}
             onClick={handleLogoutUser}
-            className="hover:text-pink-900 hover:scale-125 transition-all"
+            className="link"
           >
             <NavLink to={`/login`}>
               {isUserLoggedIn ? <BiLogOut /> : <BiLogIn />}
