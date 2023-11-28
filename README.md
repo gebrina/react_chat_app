@@ -1,30 +1,36 @@
-# React + TypeScript + Vite
+## Advanced Chat App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p style="background-color:teal;border-radius:10px; padding:5px 10px;
+color:white;"> 
+ Before cloning this repo or running this project you need to clone the backend api for mor info <a style="color:inherit" href="https://github.com/gebrina/chat_app_api.git"> Learn More</a>
+</p>
 
-Currently, two official plugins are available:
+### Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Register users
+2. Login users
+3. Save user chats data persistently
+4. Private Chat
+5. Shows user typing status
+6. Shows user online status
 
-## Expanding the ESLint configuration
+#### Used Technologies
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. React - TypeScript
+2. axios
+3. socket.io-client
 
-- Configure the top-level `parserOptions` property like this:
+# How to run the api
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+1. clone or download this repo btw you can use the following command to clone the repositroy.
+   `git clone https://github.com/gebrina/react_chat_app.git`
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. open your terminal and navigate to the project dir `cd react_chat_app`
+
+3. install dependencies type the following command on your terminal and hit enter.
+
+`pnpm  install `
+
+> > better to use pnpm but if your are using yarn or npm you can use this command, instead `yarn | npm install`
+
+4. run the project `pnpm dev` or `npm run dev ` or `yarn dev`
