@@ -2,13 +2,15 @@ import UserForm from "./Form";
 import User from "./User";
 import { FaArrowLeft, FaArrowRight, FaPlus, FaXbox } from "react-icons/fa";
 import useUsers from "../../hooks/useUsers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Search from "./Search";
 import { useChatContext } from "../../context/UseChatContext";
+import { socket } from "../chat/Socket";
 
 const Users = () => {
   const { users, setUsers } = useUsers();
   const { currentUser } = useChatContext();
+  const [activeUsers, setActiveUsers] = useState<string[]>([]);
 
   const [addUser, setUser] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
@@ -26,6 +28,23 @@ const Users = () => {
       setStartIndex(startIndex - itemsPerPage);
     }
   };
+
+  useEffect(() => {
+    socket.emit("online", currentUser?.username);
+
+    const handleOnlineStatus = (activeUsers: string[]) => {
+      const filterdActiveUsers = activeUsers.filter(
+        (username) => username !== currentUser?.username
+      );
+      setActiveUsers(filterdActiveUsers);
+    };
+
+    socket.on("online", handleOnlineStatus);
+
+    return () => {
+      socket.off("online", handleOnlineStatus);
+    };
+  }, [currentUser?.username]);
 
   return (
     <section className="relative">
@@ -73,7 +92,12 @@ const Users = () => {
         <Search setUsers={setUsers} />
 
         {users.slice(startIndex, startIndex + itemsPerPage).map((user) => (
-          <User setUsers={setUsers} user={user} key={user.id} />
+          <User
+            setUsers={setUsers}
+            activeUsers={activeUsers}
+            user={user}
+            key={user.id}
+          />
         ))}
         <div className="flex gap-10 my-2">
           <FaArrowLeft
