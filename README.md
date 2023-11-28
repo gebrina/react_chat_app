@@ -19,8 +19,9 @@ color:white;">
 1. React - TypeScript
 2. axios
 3. socket.io-client
+4. TailwindCSS
 
-# How to run the api
+# How to run the app
 
 1. clone or download this repo btw you can use the following command to clone the repositroy.
    `git clone https://github.com/gebrina/react_chat_app.git`
