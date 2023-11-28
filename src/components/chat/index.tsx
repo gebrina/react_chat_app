@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { io, Socket } from "socket.io-client";
+import { socket } from "./Socket";
 import { useChatContext } from "../../context/UseChatContext";
 import ChatBoard from "./ChatBoard";
-
-const socket: Socket = io("http://localhost:3000");
 
 const MainChat = () => {
   const { currentUser } = useChatContext();

@@ -1,8 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,400;0,700;1,400&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 .main-container {
+  font-family: "Lobster Two", sans-serif;
+
   @apply w-screen h-screen;
   background: linear-gradient(
     to bottom left,

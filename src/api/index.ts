@@ -10,9 +10,13 @@ const errorMsg = "Something went wrong.";
 const handleAxiosError = (error: unknown) => {
   if (error instanceof AxiosError) {
     const { response } = error;
-    toast.error(response?.data.reason);
+    if (response) {
+      toast.error(response?.data.reason);
+    } else {
+      toast.error(errorMsg, { theme: "colored" });
+    }
   } else {
-    toast.error(errorMsg);
+    toast.error(errorMsg, { theme: "colored" });
   }
 };
 
